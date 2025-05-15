@@ -1,6 +1,5 @@
 # Fake and True News Detection Project:
-
-<img src="https://socialify.git.ci/kapilsinghnegi/Fake-News-Detection/image?description=1&font=Source%20Code%20Pro&forks=1&issues=1&language=1&name=1&owner=1&pattern=Charlie%20Brown&pulls=1&stargazers=1&theme=Dark" alt="Fake-News-Detection" width="1280" height="320" />
+     Project don by HARIKRISHNAN V
 
 The code will produce evaluation metrics and provide a prediction for whether the given news is true or false based on the trained model.
 
