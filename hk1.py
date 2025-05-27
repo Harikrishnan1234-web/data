@@ -1,35 +1,86 @@
-#include <stdio.h>
-#include <conio.h>
-
-int visited[7] = {0, 0, 0, 0, 0, 0, 0};
-int A[7][7] = {
-    {0, 1, 1, 1, 0, 0, 0},
-    {1, 0, 1, 0, 0, 0, 0},
-    {1, 1, 0, 1, 1, 0, 0},
-    {1, 0, 1, 0, 1, 0, 0},
-    {0, 0, 1, 1, 0, 1, 1},
-    {0, 0, 0, 0, 1, 0, 0},
-    {0, 0, 0, 0, 1, 0, 0}
-};
-
-void DFS(int i)
+#include<stdio.h>
+#include<unistd.h>
+#include <stdlib.h>
+//#include <conio.h>
+int main()
 {
-    int j;
-    printf("%d ", i);
-    visited[i] = 1;
-    for (j = 0; j < 7; j++)
-    {
-        if (A[i][j] == 1 && visited[j] == 0)
-        {
-            DFS(j);
-        }
-    }
+int pid,pid1,pid2;
+pid=fork();
+//clrscr();
+if(pid==-1)
+{
+printf("ERROR IN PROCESS CREATION \n");
+exit(1);
+}
+if(pid!=0)
+{
+pid1=getpid();
+printf("\n the parent process ID is %d", pid1);
+}
+else
+{
+pid2=getpid();
+printf("\n the child process ID is %d",pid2);
+}
 }
 
-void main()
-{
-    clrscr();
-    printf("The DFS is: ");
-    DFS(0);
-    getch();
+
+#include <stdio.h> 
+
+#include <pthread.h> 
+
+#include <semaphore.h> 
+
+#include <unistd.h> 
+
+sem_t mutex; 
+
+void* thread(void* arg) 
+
+{ 
+
+    //wait 
+
+    sem_wait(&mutex); 
+
+    printf("\nEntered thread\n"); 
+
+  
+
+    //critical section 
+
+    sleep(4); 
+
+      
+
+    //signal 
+
+    printf("\n Exit thread\n"); 
+
+    sem_post(&mutex); 
+
+} 
+
+int main() 
+
+{ 
+
+    sem_init(&mutex, 0, 1); 
+
+    pthread_t t1,t2; 
+
+    pthread_create(&t1,NULL,thread,NULL); 
+
+    sleep(2); 
+
+    pthread_create(&t2,NULL,thread,NULL); 
+
+    pthread_join(t1,NULL); 
+
+    pthread_join(t2,NULL); 
+
+    sem_destroy(&mutex); 
+
+    return 0; 
+
 }
