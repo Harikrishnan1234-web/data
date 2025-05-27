@@ -1,12 +1,12 @@
 #include<stdio.h>
 #include<unistd.h>
 #include <stdlib.h>
-//#include <conio.h>
+
 int main()
 {
 int pid,pid1,pid2;
 pid=fork();
-//clrscr();
+
 if(pid==-1)
 {
 printf("ERROR IN PROCESS CREATION \n");
@@ -23,6 +23,11 @@ pid2=getpid();
 printf("\n the child process ID is %d",pid2);
 }
 }
+
+
+
+
+
 
 
 #include <stdio.h> 
