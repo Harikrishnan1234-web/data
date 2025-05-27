@@ -1,3 +1,4 @@
+sudo apt install gcc
 gedit
  cd Desktop/
  touch hello.c
