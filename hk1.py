@@ -36,3 +36,23 @@ public class Main {
         System.out.println("Encrypted: " + enc);
         System.out.println("Decrypted: " + dec);
     }
+
+
+
+
+
+10
+
+import os
+def start_vpn():
+ # Replace 'client.ovpn' with the actual path to your OpenVPN client configuration file
+ print("Starting VPN connection...")
+ os.system("sudo openvpn --config /path/to/client.ovpn")
+if __name__ == "__main__":
+ start_vpn()import os
+def start_vpn():
+ # Replace 'client.ovpn' with the actual path to your OpenVPN client configuration file
+ print("Starting VPN connection...")
+ os.system("sudo openvpn --config /path/to/client.ovpn")
+if __name__ == "__main__":
+ start_vpn()
