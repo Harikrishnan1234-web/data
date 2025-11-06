@@ -1,3 +1,4 @@
+3
 import java.security.*;
 import java.util.*;
 
@@ -11,3 +12,27 @@ public class CreatingDigitalSignatures {
         System.out.println(new String(sign.sign()));
     }
 }
+
+
+
+1
+
+import javax.crypto.*;
+import java.util.Base64;
+
+public class Main {
+    public static void main(String[] args) throws Exception {
+        SecretKey key = KeyGenerator.getInstance("AES").generateKey();
+        Cipher cipher = Cipher.getInstance("AES");
+
+        String msg = "Hello, world!";
+        cipher.init(Cipher.ENCRYPT_MODE, key);
+        String enc = Base64.getEncoder().encodeToString(cipher.doFinal(msg.getBytes()));
+
+        cipher.init(Cipher.DECRYPT_MODE, key);
+        String dec = new String(cipher.doFinal(Base64.getDecoder().decode(enc)));
+
+        System.out.println("Original: " + msg);
+        System.out.println("Encrypted: " + enc);
+        System.out.println("Decrypted: " + dec);
+    }
