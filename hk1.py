@@ -1,102 +1,83 @@
 1
-#include <stdio.h>
-#include <string.h>
-#include <ctype.h>
+import socket
 
-int main() {
-    char s[100], *t;
-    printf("Enter expression: ");
-    fgets(s, 100, stdin);
-    s[strcspn(s, "\n")] = 0;
+target = "127.0.0.1"   # Localhost
+start_port = 20
+end_port = 30
 
-    for (t = strtok(s, " +-*/=(),;"); t; t = strtok(NULL, " +-*/=(),;")) {
-        int dot = 0, i;
-        if (isalpha(t[0]) || t[0] == '_')
-            for (i = 1; t[i]; i++)
-                if (!isalnum(t[i]) && t[i] != '_') break;
-        if ((isalpha(t[0]) || t[0] == '_') && !t[i])
-            printf("%s → Identifier\n", t);
-        else {
-            for (i = 0; t[i]; i++) if (t[i] == '.') dot++;
-            if (dot == 1) printf("%s → Real Constant\n", t);
-            else printf("%s → Integer Constant\n", t);
-        }
-    }
-}
+print(f"Scanning ports {start_port}-{end_port} on {target}")
+
+for port in range(start_port, end_port + 1):
+    s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    socket.setdefaulttimeout(1)
+    result = s.connect_ex((target, port))
+    if result == 0:
+        print(f"Port {port}: OPEN")
+    else:
+        print(f"Port {port}: CLOSED")
+    s.close()
+
+print("Verification: Compare with 'nmap 127.0.0.1 -p 20-30'")
+
+2
+
+from datetime import datetime
+
+with open("input_log.txt", "a") as file:
+    while True:
+        command = input("Enter command: ")
+        if command.lower() == "exit":
+            print("Logging stopped.")
+            break
+        timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        file.write(f"{timestamp} - {command}\n")
+        print("Command logged successfully.")
+
+3
+
+import requests
+
+url = "http://example.com/login.php?id="
+payloads = ["1", "1' OR '1'='1", "1'--", "1' OR 'a'='a"]
+
+for p in payloads:
+    target = url + p
+    response = requests.get(target)
+    print(f"Testing payload: {p}")
+    if "error" in response.text.lower() or "sql" in response.text.lower():
+        print(" Possible SQL Injection Vulnerability!")
+    else:
+        print(" Secure against payload.")
+
+4
+
+import pyotp
+import time
+
+# Shared secret
+secret = pyotp.random_base32()
+totp = pyotp.TOTP(secret)
+
+print("Generated OTP (user side):", totp.now())
+print("Please wait 30 seconds to test OTP expiry...")
+
+# Simulating user input
+user_otp = input("Enter OTP: ")
+
+if totp.verify(user_otp):
+    print("Login Successful (OTP Verified)")
+else:
+    print("Invalid OTP or Expired")
+
+5
 
 
-**7. Three Address Code Generator**
-
-```c
-#include <stdio.h>
-#include <string.h>
-
-int main() {
-    char expr[20];
-    printf("Enter expression (a=b+c*d): ");
-    gets(expr);
-    char a = expr[0], b = expr[2], c = expr[4], d = expr[6];
-    printf("t1 = %c * %c\n", c, d);
-    printf("t2 = %c + t1\n", b);
-    printf("%c = t2\n", a);
-    return 0;
-}
-```
-
----
-
-### **8. Type Checker**
-
-```c
-#include <stdio.h>
-#include <string.h>
-
-int main() {
-    char var1[10], var2[10], type1[10], type2[10];
-    printf("Enter variable1 name and type: ");
-    scanf("%s%s", var1, type1);
-    printf("Enter variable2 name and type: ");
-    scanf("%s%s", var2, type2);
-    if (strcmp(type1, type2) == 0)
-        printf("No type error\n");
-    else
-        printf("Type Mismatch Error\n");
-    return 0;
-}
-```
-
----
-
-### **9. Code Optimization Example**
-
-```c
-#include <stdio.h>
-
-int main() {
-    int a = 2, b = 4;
-    int c = a * 2;
-    int d = a * 2;  // Common sub-expression
-
-    printf("Before Optimization: %d %d\n", c, d);
-    d = c;  // Optimized
-    printf("After Optimization: %d %d\n", c, d);
-}
-```
-
----
-
-### **10. Intermediate Code → Machine Code**
-
-```c
-#include <stdio.h>
-#include <string.h>
-
-int main() {
-    char op[5], arg1[5], arg2[5], res[5];
-    printf("Enter Quadruple (op arg1 arg2 result): ");
-    scanf("%s%s%s%s", op, arg1, arg2, res);
-    printf("MOV R1,%s\n", arg1);
-    printf("%s R1,%s\n", op, arg2);
-    printf("MOV %s,R1\n", res);
-}
-```
+from cryptography.fernet import Fernet
+message = "hello geeks"
+key = Fernet.generate_key()
+fernet = Fernet(key)
+encMessage = fernet.encrypt(message.encode())
+print("original string: ", message)
+print("encrypted string: ", encMessage)
+decMessage = fernet.decrypt(encMessage).decode()
+print("decrypted string: ", decMessage)
