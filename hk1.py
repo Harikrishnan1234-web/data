@@ -1,19 +1,21 @@
-public class DistanceVector {
-    public static void main(String[] args) {
-        int INF = 999;
-        int[][] graph = {{0,1,4},{1,0,2},{4,2,0}};
-        int[] distance = {0, INF, INF};
+import numpy as np
+import matplotlib.pyplot as plt
+from sklearn.linear_model import LinearRegression
 
-        for(int k=0;k<graph.length;k++) {
-            for(int i=0;i<graph.length;i++) {
-                for(int j=0;j<graph.length;j++) {
-                    if(distance[j] > distance[i] + graph[i][j])
-                        distance[j] = distance[i] + graph[i][j];
-                }
-            }
-        }
+# Data
+X = np.random.rand(100,1)
+y = 2 + 3*X + np.random.randn(100,1)
 
-        for(int i=0;i<distance.length;i++)
-            System.out.println("Distance to " + i + " = " + distance[i]);
-    }
-}
+# Models
+m1 = LinearRegression(fit_intercept=False).fit(X,y)
+m2 = LinearRegression().fit(X,y)
+
+# Plot
+plt.scatter(X,y)
+plt.plot(X, m1.predict(X),'r')
+plt.plot(X, m2.predict(X),'b')
+plt.show()
+
+# Output
+print(m1.coef_[0][0])
+print(m2.intercept_[0], m2.coef_[0][0])
